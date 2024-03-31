@@ -8,7 +8,7 @@ import org.kde.plasma.private.mpris as Mpris
 PlasmoidItem {
     id: root
     width: 400
-    height: 200
+    height: 180
 
     preferredRepresentation: fullRepresentation
     Plasmoid.backgroundHints: "NoBackground"
@@ -22,109 +22,130 @@ PlasmoidItem {
 		id: audioAnalizer
 		maxheight: barras.height
 	}
-	fullRepresentation: ColumnLayout {
+	ColumnLayout {
         id: wrapper
-        width: parent.width
+        width:  parent.width
         height: parent.height
+        Layout.minimumWidth: 290
+        Layout.minimumHeight: 170
         Column {
-            Layout.preferredWidth: (parent.height < parent.width) ? parent.height : parent.width
-            Layout.preferredHeight: (parent.height < parent.width) ? parent.height : parent.width
+            width:  parent.width
+            height: parent.height
             anchors.centerIn: parent
             Row {
                 id: barras
-                width: height*1.3
-                height: parent.height*.4
+                width: height
+                height: trackMusic.height/infotrack.height < .60 ? (parent.height*.55) > parent.width ? parent.width : parent.height*.55 : (parent.height*.45) > parent.width ? parent.width : parent.height*.45
                 spacing: (width-((width/16)*9))/8
                 anchors.horizontalCenter: parent.horizontalCenter
+                //visible: trackMusic.length > 0 ? true : false
                 Rectangle {
                     color: "white"
-                    width: barras.width/14
-                    height: audioAnalizer.one
+                    width: barras.width/16
+                    height: isPlaying ? audioAnalizer.one : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.two
+                    height: isPlaying ?  audioAnalizer.two : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.three
+                    height: isPlaying ? audioAnalizer.three : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.four
+                    height: isPlaying ? audioAnalizer.four : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.five
+                    height: isPlaying ? audioAnalizer.five : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.six
+                    height: isPlaying ? audioAnalizer.six : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.seven
+                    height: isPlaying ? audioAnalizer.seven : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.eight
+                    height: isPlaying ? audioAnalizer.eight : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
                     color: "white"
                     width: barras.width/16
-                    height: audioAnalizer.nine
+                    height: isPlaying ? audioAnalizer.nine : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
+
                 }
             }
-            Text {
-                id: trackMusic
-                width: parent.width
-                height: parent.height*.35
-                font.pixelSize: height*.6
-                text: track
-                color: "white"
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                elide: Text.ElideRight
-                maximumLineCount: 2
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
+
+            Column {
+                id: infotrack
+                width: wrapper.width
+                height: parent.height-(barras.height)
+                spacing: 0
+                Rectangle {
+                    width: wrapper.width
+                    height: parent.height*.65
+                    color: "transparent"
+                    Text {
+                        id: trackMusic
+                        width: wrapper.width
+                        font.pixelSize: parent.height*.5
+                        text: track
+                        color: "white"
+                        font.bold: true
+                        lineHeight: 0.8
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.Bottom
+                        wrapMode: Text.WordWrap
+                        elide: Text.ElideRight
+                        maximumLineCount: 2
+                        anchors.bottom: parent.bottom
+                    }
+                }
+
             Text {
                 id: artisMusic
-                width: parent.width
-                height: parent.height*.25
-                font.pixelSize: height*.3
+                width: wrapper.width
+                height: parent.height*.35
+                font.pixelSize: height*.6
                 text: artist
                 color: "white"
                 opacity: .80
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
             }
+
+            }
+
         }
     }
     Mpris.Mpris2Model {

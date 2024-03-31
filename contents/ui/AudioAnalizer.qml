@@ -89,7 +89,7 @@ Item {
     }
     function establerAnchoDeBar(asignacion,heig,min) {
         var numSinExp = (getPrimerNumero(numeros, asignacion)+2)
-        var num = (heig/17)*numSinExp + balancecentar(asignacion,heig)
+        var num = (heig/14)*numSinExp + balancecentar(asignacion,heig)
         if (num < min) {
             return min
         } else { if (num > heig) {
