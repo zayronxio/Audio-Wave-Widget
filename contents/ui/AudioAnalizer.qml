@@ -8,7 +8,10 @@ Item {
 
     property string codesByAudio: "0"
     property string numeros: codesByAudio.toString();
-    property string updatescommand: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp.sh"
+    property string updatescommand0: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-simple.sh"
+    property string updatescommand1: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp.sh"
+    property string updatescommand2: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
+    property string updatescommand: plasmoid.configuration.dataExtractionMethod === 0 ? updatescommand0 : plasmoid.configuration.dataExtractionMethod === 1 ? updatescommand1 : updatescommand2
     property int maxheight: 200
 
     property int one: establerAnchoDeBar(8,maxheight,width)
@@ -103,7 +106,7 @@ Item {
 
 Timer {
     id: timer
-    interval: 150
+    interval: 50
     running: true
     repeat: true
     onTriggered: {
