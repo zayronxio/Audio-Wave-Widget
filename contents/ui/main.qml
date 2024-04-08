@@ -20,7 +20,9 @@ PlasmoidItem {
 
     AudioAnalizer {
 		id: audioAnalizer
+
 		maxheight: barras.height
+		minwid: barras.width/16
 	}
 	ColumnLayout {
         id: wrapper
@@ -117,7 +119,7 @@ PlasmoidItem {
                     Text {
                         id: trackMusic
                         width: wrapper.width
-                        font.pixelSize: parent.height*.5
+                        font.pixelSize: parent.height*.4
                         text: track
                         color: "white"
                         font.bold: true
@@ -135,7 +137,7 @@ PlasmoidItem {
                 id: artisMusic
                 width: wrapper.width
                 height: parent.height*.35
-                font.pixelSize: height*.6
+                font.pixelSize: height*.4
                 text: artist
                 color: "white"
                 opacity: .80

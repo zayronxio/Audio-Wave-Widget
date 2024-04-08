@@ -29,20 +29,20 @@ Item {
             }
             Label {
                 width: parent.width
-                text: i18n("extracting the data with python is the most recommended!")
+                text: i18n("Disabled for the moment, they will soon be available again"  // "extracting the data with python is the most recommended!")
                 opacity: 0.8
                 wrapMode: Text.WordWrap
                 visible: initialValue.value === 0 ? true :  false
             }
             Label {
-                text: i18n("This process to extract the data requires the portaudio19-dev library, if installing this seems complicated, use python as the method to extract data")
+                text: i18n("Disabled for the moment, they will soon be available again"  //"This process to extract the data requires the portaudio19-dev library, if installing this seems complicated, use python as the method to extract data")
                 opacity: 0.8
                 width: parent.width
                 wrapMode: Text.WordWrap
                 visible: initialValue.value === 1 ? true :  false
             }
             Label {
-                text: i18n("This process to extract the data requires the portaudio19-dev and fftw3 library, if installing this seems complicated, use python as a method to extract data")
+                text: i18n("Disabled for the moment, they will soon be available again"  //"This process to extract the data requires the portaudio19-dev and fftw3 library, if installing this seems complicated, use python as a method to extract data")
                 opacity: 0.8
                 width: parent.width
                 wrapMode: Text.WordWrap

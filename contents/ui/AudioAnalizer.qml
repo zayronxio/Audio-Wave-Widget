@@ -10,19 +10,20 @@ Item {
     property string numeros: codesByAudio.toString();
     property string updatescommand0: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-simple.sh"
     property string updatescommand1: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp.sh"
-    property string updatescommand2: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
-    property string updatescommand: plasmoid.configuration.dataExtractionMethod === 0 ? updatescommand0 : plasmoid.configuration.dataExtractionMethod === 1 ? updatescommand1 : updatescommand2
+    property string updatescommand2:  "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
+    property string updatescommand: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/ejecutor.sh" // plasmoid.configuration.dataExtractionMethod === 0 ? updatescommand0 : plasmoid.configuration.dataExtractionMethod === 1 ? updatescommand1 : updatescommand2
     property int maxheight: 200
+    property int minwid: 8
 
-    property int one: establerAnchoDeBar(8,maxheight,width)
-    property int two: establerAnchoDeBar(6,maxheight,width)
-    property int three: establerAnchoDeBar(4,maxheight,width)
-    property int four: establerAnchoDeBar(2,maxheight,width)
-    property int five: establerAnchoDeBar(1,maxheight,width)
-    property int six: establerAnchoDeBar(3,maxheight,width)
-    property int seven: establerAnchoDeBar(5,maxheight,width)
-    property int eight: establerAnchoDeBar(7,maxheight,width)
-    property int nine: establerAnchoDeBar(8,maxheight,width)
+    property int one: establerAnchoDeBar(8,maxheight,minwid)
+    property int two: establerAnchoDeBar(6,maxheight,minwid)
+    property int three: establerAnchoDeBar(4,maxheight,minwid)
+    property int four: establerAnchoDeBar(2,maxheight,minwid)
+    property int five: establerAnchoDeBar(1,maxheight,minwid)
+    property int six: establerAnchoDeBar(3,maxheight,minwid)
+    property int seven: establerAnchoDeBar(5,maxheight,minwid)
+    property int eight: establerAnchoDeBar(7,maxheight,minwid)
+    property int nine: establerAnchoDeBar(8,maxheight,minwid)
 
    /***/
    Plasma5Support.DataSource {
@@ -67,15 +68,15 @@ Item {
 
     function balancecentar(numero,heig) {
         if (numero == 1) {
-            return heig/6
+            return heig/4
         } else if (numero == 2) {
-            return heig/8
+            return heig/6
         } else if (numero == 3) {
-            return  heig/8
+            return  heig/6
         } else if (numero == 4) {
-            return  heig/12
+            return  heig/10
         } else if (numero == 5) {
-            return heig/12
+            return heig/10
         } else if (numero == 6) {
             return -heig/25
         } else if (numero == 7) {
@@ -91,22 +92,47 @@ Item {
         }
     }
     function establerAnchoDeBar(asignacion,heig,min) {
-        var numSinExp = (getPrimerNumero(numeros, asignacion)+2)
-        var num = (heig/14)*numSinExp + balancecentar(asignacion,heig)
+        var numSinExp = (getPrimerNumero(numeros, asignacion))
+        var num = (heig/18)*(numSinExp*50) + balancecentar(asignacion,heig)
         if (num < min) {
             return min
         } else { if (num > heig) {
             return heig
         } else {
-            return num
+
+            if (asignacion === 1) {
+                if (num*1.8 > heig) {
+            return heig
+        } else {
+            return num*1.8 }
+        }
+                else {
+                    if (asignacion === 2) {
+                        if (num*1.2 > heig) {
+            return heig
+        } else {
+            return num*1.2 }
+                    }
+                        else {
+                            if (asignacion === 3) {
+                                if (num*1.2 > heig) {
+            return heig
+        } else {
+            return num*1.2 }
+                            }
+                                else {
+                                        return num
+                                    }
+                        }
+                }
+            }
         }
 
         }
-    }
 
 Timer {
     id: timer
-    interval: 50
+    interval: 100
     running: true
     repeat: true
     onTriggered: {

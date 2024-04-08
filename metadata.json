@@ -15,7 +15,7 @@
         "ServiceTypes": [
             "Plasma/Applet"
         ],
-        "Version": "0.2",
+        "Version": "0.2.1",
         "Website": "https://store.kde.org/p/2142681/"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
