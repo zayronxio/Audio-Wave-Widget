@@ -1,5 +1,3 @@
-# Audio-Wave-Widget
-widget de plasma 6, para mostrar información de la pista de audio junto con barras de audio que representan diferentes frecuenciasc
 <p align="center">
   <h1 align="center">Audio Wave Widget</h1>
   <p align="center">This is a widget for KDE Plasma 6 that implements a small program developed in C++ leveraging the ALSA libraries included in most distributions and the Radix-2 FFT algorithm to analyze audio and display bars with a wave effect representing the music being played on the system./center>
