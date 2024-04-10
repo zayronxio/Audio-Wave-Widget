@@ -18,11 +18,13 @@ PlasmoidItem {
     readonly property int playbackStatus: mpris2Model.currentPlayer?.playbackStatus ?? 0
     readonly property bool isPlaying: root.playbackStatus === Mpris.PlaybackStatus.Playing
 
+
     AudioAnalizer {
 		id: audioAnalizer
 
 		maxheight: barras.height
 		minwid: barras.width/16
+		timerRepat: isPlaying
 	}
 	ColumnLayout {
         id: wrapper
@@ -37,7 +39,7 @@ PlasmoidItem {
             Row {
                 id: barras
                 width: height
-                height: trackMusic.height/infotrack.height < .60 ? (parent.height*.55) > parent.width ? parent.width : parent.height*.55 : (parent.height*.45) > parent.width ? parent.width : parent.height*.45
+                height: trackMusic.height/infotrack.height < .50 ? (parent.height*.45) > parent.width ? parent.width : parent.height*.45 : (parent.height*.35) > parent.width ? parent.width : parent.height*.35
                 spacing: (width-((width/16)*9))/8
                 anchors.horizontalCenter: parent.horizontalCenter
                 //visible: trackMusic.length > 0 ? true : false
@@ -119,7 +121,7 @@ PlasmoidItem {
                     Text {
                         id: trackMusic
                         width: wrapper.width
-                        font.pixelSize: parent.height*.4
+                        font.pixelSize: parent.height*.5
                         text: track
                         color: "white"
                         font.bold: true
@@ -137,7 +139,7 @@ PlasmoidItem {
                 id: artisMusic
                 width: wrapper.width
                 height: parent.height*.35
-                font.pixelSize: height*.4
+                font.pixelSize: height*.55
                 text: artist
                 color: "white"
                 opacity: .80

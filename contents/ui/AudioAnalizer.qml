@@ -13,7 +13,9 @@ Item {
     property string updatescommand2:  "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
     property string updatescommand: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/ejecutor.sh" // plasmoid.configuration.dataExtractionMethod === 0 ? updatescommand0 : plasmoid.configuration.dataExtractionMethod === 1 ? updatescommand1 : updatescommand2
     property int maxheight: 200
-    property int minwid: 8
+    property int minwid: 10
+    property bool timerRepat: true
+
 
     property int one: establerAnchoDeBar(8,maxheight,minwid)
     property int two: establerAnchoDeBar(6,maxheight,minwid)
@@ -132,11 +134,15 @@ Item {
 
 Timer {
     id: timer
-    interval: 100
+    interval: 75
     running: true
     repeat: true
     onTriggered: {
-        executeCommand()
+        if (timerRepat == true) {
+          executeCommand()
+        }
+
     }
 }
+
 }
