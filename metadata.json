@@ -15,8 +15,8 @@
         "ServiceTypes": [
             "Plasma/Applet"
         ],
-        "Version": "0.2.2",
-        "Website": "https://store.kde.org/p/2142681/"
+        "Version": "0.2.3",
+        "Website": "https://store.kde.org/p/2142681"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-MainScript": "ui/main.qml"

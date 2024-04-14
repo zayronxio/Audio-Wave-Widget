@@ -39,7 +39,7 @@ PlasmoidItem {
             Row {
                 id: barras
                 width: height
-                height: trackMusic.height/infotrack.height < .50 ? (parent.height*.45) > parent.width ? parent.width : parent.height*.45 : (parent.height*.35) > parent.width ? parent.width : parent.height*.35
+                height: trackMusic.height/infotrack.height < .70 ? (parent.height*.65) > parent.width ? parent.width : parent.height*.65 : (parent.height*.55) > parent.width ? parent.width : parent.height*.55
                 spacing: (width-((width/16)*9))/8
                 anchors.horizontalCenter: parent.horizontalCenter
                 //visible: trackMusic.length > 0 ? true : false
@@ -116,12 +116,12 @@ PlasmoidItem {
                 spacing: 0
                 Rectangle {
                     width: wrapper.width
-                    height: parent.height*.65
+                    height: parent.height*.7
                     color: "transparent"
                     Text {
                         id: trackMusic
                         width: wrapper.width
-                        font.pixelSize: parent.height*.5
+                        font.pixelSize: parent.height*.6
                         text: track
                         color: "white"
                         font.bold: true
@@ -139,7 +139,7 @@ PlasmoidItem {
                 id: artisMusic
                 width: wrapper.width
                 height: parent.height*.35
-                font.pixelSize: height*.55
+                font.pixelSize: height*.8
                 text: artist
                 color: "white"
                 opacity: .80

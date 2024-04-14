@@ -4,7 +4,7 @@
 #include <alsa/asoundlib.h>
 
 #define SAMPLE_RATE         (44100)
-#define FRAMES_PER_BUFFER   (256)
+#define FRAMES_PER_BUFFER   (512)
 #define NUM_CHANNELS        (2)
 
 #define NUM_LOW_BANDS       (3)
@@ -124,10 +124,11 @@ int main() {
         return 1;
     }
 
-    // Llamar al callback de audio una vez para procesar y mostrar los datos instantáneos
-    if (audioCallback(pcm_handle, &audioData) != 0) {
-        std::cerr << "Error al procesar los datos de audio." << std::endl;
-        return 1;
+    // Leer audio y procesarlo en bucle
+    while (true) {
+        if (audioCallback(pcm_handle, &audioData) != 0) {
+            break;
+        }
     }
 
     // Cerrar dispositivo PCM y liberar memoria
@@ -136,3 +137,4 @@ int main() {
 
     return 0;
 }
+

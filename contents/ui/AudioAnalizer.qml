@@ -8,9 +8,9 @@ Item {
 
     property string codesByAudio: "0"
     property string numeros: codesByAudio.toString();
-    property string updatescommand0: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-simple.sh"
-    property string updatescommand1: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp.sh"
-    property string updatescommand2:  "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
+    property string updatescommand0: "$HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/audiolysis"
+    //property string updatescommand1: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp.sh"
+    //property string updatescommand2:  "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
     property string updatescommand: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/ejecutor.sh" // plasmoid.configuration.dataExtractionMethod === 0 ? updatescommand0 : plasmoid.configuration.dataExtractionMethod === 1 ? updatescommand1 : updatescommand2
     property int maxheight: 200
     property int minwid: 10
@@ -27,6 +27,16 @@ Item {
     property int eight: establerAnchoDeBar(7,maxheight,minwid)
     property int nine: establerAnchoDeBar(8,maxheight,minwid)
 
+   Plasma5Support.DataSource {
+        id: executable
+        engine: "executable"
+        connectedSources: updatescommand0
+        onNewData: function(source, data) {
+            disconnectSource(source)
+        }
+
+
+    }
    /***/
    Plasma5Support.DataSource {
       id: executable2
@@ -139,10 +149,9 @@ Timer {
     repeat: true
     onTriggered: {
         if (timerRepat == true) {
-          executeCommand()
+            executeCommand()
         }
-
-    }
+     }
 }
 
 }
