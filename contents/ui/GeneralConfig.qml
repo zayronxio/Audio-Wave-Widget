@@ -1,67 +1,86 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.11
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item {
-    id: configRoot
+    id: root
 
     signal configurationChanged
-    QtObject {
-        id: initialValue
-        property var value
-    }
 
-    property alias cfg_dataExtractionMethod: initialValue.value
+
+    property alias cfg_frecuencyUpdates: frecuencyUpdate.value
+    property alias cfg_customColorEnable: sistemColorCkeck.checked
+    property alias cfg_customColorCodeRGB: customColorRGB.text
+    property var cfg_colorize: sistemColorCkeck.checked ? cfg_customColorCodeRGB : Kirigami.Theme.TextColor
 
     ColumnLayout {
-        spacing: units.smallSpacing * 2
-        width: configRoot.width
-        height: configRoot.height
+    id:mainColumn
+    spacing: Kirigami.Units.largeSpacing
+    Layout.fillWidth: true
 
+    GridLayout{
+        columns: 2
 
-            Column{
-                width: parent.width
-                height: parent.width
+        Label {
+            id: refrestitle
+            Layout.minimumWidth: root.width/2
+            text: i18n("AudioData refresh rate:")
+            horizontalAlignment: Label.AlignRight
+        }
+        Row {
+            Layout.minimumWidth: root.width/2
+            height: refrestitle.implicitHeight
             Label {
-                text: i18n("Data Extraction Method")
+                height: parent.height
+                width: 30
+                text: "10"
                 font.bold: true
+                verticalAlignment: Text.AlignVBottom
+            }
+            Slider {
+                id: frecuencyUpdate
+                width: parent.width*.3
+                from: 10 // Valor mínimo del slider
+                to: 150 // Valor máximo del slider
+                stepSize: 10 // Incremento de paso del slider
+
             }
             Label {
-                width: parent.width
-                text: i18n("Disabled for the moment, they will soon be available again"  // "extracting the data with python is the most recommended!")
-                opacity: 0.8
-                wrapMode: Text.WordWrap
-                visible: initialValue.value === 0 ? true :  false
+                height: parent.height
+                width: 30
+                text: "150"
+                font.bold: true
+                verticalAlignment: Text.AlignVBottom
             }
-            Label {
-                text: i18n("Disabled for the moment, they will soon be available again"  //"This process to extract the data requires the portaudio19-dev library, if installing this seems complicated, use python as the method to extract data")
-                opacity: 0.8
-                width: parent.width
-                wrapMode: Text.WordWrap
-                visible: initialValue.value === 1 ? true :  false
-            }
-            Label {
-                text: i18n("Disabled for the moment, they will soon be available again"  //"This process to extract the data requires the portaudio19-dev and fftw3 library, if installing this seems complicated, use python as a method to extract data")
-                opacity: 0.8
-                width: parent.width
-                wrapMode: Text.WordWrap
-                visible: initialValue.value === 2 ? true :  false
-            }
-            ComboBox {
-            textRole: "text"
-            valueRole: "value"
-			id: initial
-			currentIndex: initialValue.value
-			model: [
-                {text: i18n("python and arecord"), value: 0},
-                {text: i18n("portaudio"), value: 1},
-                {text: i18n("portaudio and fftw3"), value: 2}
-            ]
-            onActivated: initialValue.value = currentValue
-            Component.onCompleted: currentIndex = indexOfValue(initialValue.value)
-		}
+
+        }
+        Label {
+        }
+        Label {
+        }
+        Label {
+            Layout.minimumWidth: root.width/2
+            text: i18n("Custom color:")
+            horizontalAlignment: Label.AlignRight
         }
 
-   }
+        CheckBox{
+            id: sistemColorCkeck
+            text: i18n("")
+        }
+        Label {
+            Layout.minimumWidth: root.width/2
+            text: i18n("code color RGB:")
+            horizontalAlignment: Label.AlignRight
+        }
+        TextField {
+            id: customColorRGB
+            width: 250
+            enabled: sistemColorCkeck.checked
+        }
+
+    }
+    }
 }

@@ -2,156 +2,102 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import org.kde.plasma.plasma5support as Plasma5Support
 
-
-
 Item {
 
-    property string codesByAudio: "0"
-    property string numeros: codesByAudio.toString();
-    property string updatescommand0: "$HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/audiolysis"
-    //property string updatescommand1: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp.sh"
-    //property string updatescommand2:  "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/Simp-advance.sh"
-    property string updatescommand: "bash $HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/ejecutor.sh" // plasmoid.configuration.dataExtractionMethod === 0 ? updatescommand0 : plasmoid.configuration.dataExtractionMethod === 1 ? updatescommand1 : updatescommand2
+    property var spectrumData: []
+    property string updatescommand: `dbus-monitor "interface='org.plasma.AudioSpectrumAnalyzer'" | head -n 16`
     property int maxheight: 200
-    property int minwid: 10
+    property int minwid: 16
     property bool timerRepat: true
+    property int frecu: 100
 
-
-    property int one: establerAnchoDeBar(8,maxheight,minwid)
-    property int two: establerAnchoDeBar(6,maxheight,minwid)
-    property int three: establerAnchoDeBar(4,maxheight,minwid)
-    property int four: establerAnchoDeBar(2,maxheight,minwid)
-    property int five: establerAnchoDeBar(1,maxheight,minwid)
-    property int six: establerAnchoDeBar(3,maxheight,minwid)
-    property int seven: establerAnchoDeBar(5,maxheight,minwid)
-    property int eight: establerAnchoDeBar(7,maxheight,minwid)
-    property int nine: establerAnchoDeBar(8,maxheight,minwid)
-
-   Plasma5Support.DataSource {
+    Plasma5Support.DataSource {
         id: executable
         engine: "executable"
-        connectedSources: updatescommand0
+        connectedSources: "$HOME/.local/share/plasma/plasmoids/Audio.Wave.Widget/contents/ui/Lib/fft_dbus default"
         onNewData: function(source, data) {
             disconnectSource(source)
         }
 
+    }
+
+    function generatorFrecu(num){
+
+        var highestValue = Math.max(...spectrumData);
+        var dividend = highestValue < maxheight ? highestValue : 60000
+        var value = spectrumData[num]/dividend
+        if (value < minwid) {
+            return minwid
+        } else if (value > maxheight) {
+            return maxheight
+        } else {
+            return value
+        }
 
     }
-   /***/
-   Plasma5Support.DataSource {
-      id: executable2
-      engine: "executable"
-      connectedSources: []
-      onNewData: {
-            var exitCode = data["exit code"]
-            var exitStatus = data["exit status"]
-            var stdout = data["stdout"]
-            var stderr = data["stderr"]
-            exited(exitCode, exitStatus, stdout, stderr)
-            disconnectSource(sourceName) // cmd finished
-                  }
-     function exec(cmd) {
-            connectSource(cmd)
-           }
-     signal exited(int exitCode, int exitStatus, string stdout, string stderr)
-       }
+    property int one: generatorFrecu(8)
+    property int two: generatorFrecu(6)
+    property int three: generatorFrecu(4)
+    property int four: generatorFrecu(2)
+    property int five: generatorFrecu(1)
+    property int six: generatorFrecu(3)
+    property int seven: generatorFrecu(5)
+    property int eight: generatorFrecu(6)
+    property int nine: generatorFrecu(8)
 
-   Connections {
-     target: executable2
-     onExited: {
-                    codesByAudio = stdout.toString()
-                }
-          }
+    Plasma5Support.DataSource {
+        id: executable2
+        engine: "executable"
+        connectedSources: []
+
+        onNewData: {
+            disconnectSource(sourceName);
+            processStdout(data.stdout);
+        }
+
+        function exec(cmd) {
+            connectSource(cmd);
+        }
+
+    }
     function executeCommand() {
         executable2.exec(updatescommand)
     }
-    ///*//
 
-    function getPrimerNumero(texto, b) {
-        var regexp = /(-?\d+(\.\d+)?)/g; // Expresión regular para encontrar números enteros, decimales y negativos
-        var matches = texto.match(regexp); // Busca todos los números en la cadena
-        if (matches && matches.length > 0) {
-            return Number(matches[b]); // Devuelve el primer número encontrado
-        } else {
-            return 5;
-        }
-    }
-
-
-    function balancecentar(numero,heig) {
-        if (numero == 1) {
-            return heig/4
-        } else if (numero == 2) {
-            return heig/6
-        } else if (numero == 3) {
-            return  heig/6
-        } else if (numero == 4) {
-            return  heig/10
-        } else if (numero == 5) {
-            return heig/10
-        } else if (numero == 6) {
-            return -heig/25
-        } else if (numero == 7) {
-            return -heig/25
-        } else if (numero == 8) {
-            return -heig/12
-        } else if (numero == 9) {
-            return -heig/12
-        } else if (numero == 10) {
-            return -heig/8
-        } else {
-            return 0
-        }
-    }
-    function establerAnchoDeBar(asignacion,heig,min) {
-        var numSinExp = (getPrimerNumero(numeros, asignacion))
-        var num = (heig/18)*(numSinExp*50) + balancecentar(asignacion,heig)
-        if (num < min) {
-            return min
-        } else { if (num > heig) {
-            return heig
-        } else {
-
-            if (asignacion === 1) {
-                if (num*1.8 > heig) {
-            return heig
-        } else {
-            return num*1.8 }
-        }
-                else {
-                    if (asignacion === 2) {
-                        if (num*1.2 > heig) {
-            return heig
-        } else {
-            return num*1.2 }
-                    }
-                        else {
-                            if (asignacion === 3) {
-                                if (num*1.2 > heig) {
-            return heig
-        } else {
-            return num*1.2 }
-                            }
-                                else {
-                                        return num
-                                    }
-                        }
-                }
+    function processStdout(stdout) {
+        var arrayPattern = /array \[\s*([\s\S]*?)\s*\]/;
+        var match = arrayPattern.exec(stdout);
+        if (match) {
+            var arrayString = match[1];
+            var numberPattern = /double\s+([\d\.e\+\-]+)/g;
+            var numbers = [];
+            var numberMatch;
+            while ((numberMatch = numberPattern.exec(arrayString)) !== null) {
+                numbers.push(parseFloat(numberMatch[1]));
             }
+            spectrumData = numbers;
         }
+    }
+
+
+    Component.onDestruction: {
+        console.log("terminacion")
+        executable.disconnectSource(executable.source)
+        executable.exec("killall fft_dbus")
+
+    }
+
+    Timer {
+        id: timer
+        interval: 25
+        running: true
+        repeat: true
+        onTriggered: {
+            if (timerRepat == true) {
+                executeCommand()
+            }
 
         }
-
-Timer {
-    id: timer
-    interval: 75
-    running: true
-    repeat: true
-    onTriggered: {
-        if (timerRepat == true) {
-            executeCommand()
-        }
-     }
-}
+    }
 
 }

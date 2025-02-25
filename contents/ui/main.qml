@@ -15,6 +15,8 @@ PlasmoidItem {
 
     property string artist: mpris2Model.currentPlayer?.artist ?? ""
     property string track: mpris2Model.currentPlayer?.track
+    property string generalColor: Plasmoid.configuration.customColorEnable ? Plasmoid.configuration.customColorCodeRGB : Kirigami.ThemeTextColor
+
     readonly property int playbackStatus: mpris2Model.currentPlayer?.playbackStatus ?? 0
     readonly property bool isPlaying: root.playbackStatus === Mpris.PlaybackStatus.Playing
 
@@ -25,6 +27,7 @@ PlasmoidItem {
 		maxheight: barras.height
 		minwid: barras.width/16
 		timerRepat: isPlaying
+		frecu: Plasmoid.configuration.frecuencyUpdates
 	}
 	ColumnLayout {
         id: wrapper
@@ -44,63 +47,63 @@ PlasmoidItem {
                 anchors.horizontalCenter: parent.horizontalCenter
                 //visible: trackMusic.length > 0 ? true : false
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.one : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ?  audioAnalizer.two : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.three : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.four : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.five : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.six : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.seven : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.eight : width
                     radius: width/2
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    color: "white"
+                    color: generalColor
                     width: barras.width/16
                     height: isPlaying ? audioAnalizer.nine : width
                     radius: width/2
@@ -123,7 +126,7 @@ PlasmoidItem {
                         width: wrapper.width
                         font.pixelSize: parent.height*.6
                         text: track
-                        color: "white"
+                        color: generalColor
                         font.bold: true
                         lineHeight: 0.8
                         horizontalAlignment: Text.AlignHCenter
@@ -141,18 +144,19 @@ PlasmoidItem {
                 height: parent.height*.35
                 font.pixelSize: height*.8
                 text: artist
-                color: "white"
+                color: generalColor
                 opacity: .80
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
             }
 
-            }
-
         }
+
+      }
     }
     Mpris.Mpris2Model {
         id: mpris2Model
     }
+
 }
